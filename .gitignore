@@ -32,3 +32,6 @@ uploads/
 
 # Jupyter Notebooks
 .ipynb_checkpoints/
+
+# Dataset files
+data/traffic_data
