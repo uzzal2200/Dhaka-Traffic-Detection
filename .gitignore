@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.so
+
+# Virtual Environments
+env/
+venv/
+*.env
+
+# PyTorch & Model Weights
+saved_models/
+*.pt
+*.pth
+
+# Streamlit Uploads
+uploads/
+
+# Logs
+*.log
+*.db
+
+# VSCode
+.vscode/
+
+# MacOS
+.DS_Store
+
+# PyCharm
+.idea/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
