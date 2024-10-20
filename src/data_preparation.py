@@ -1,13 +1,30 @@
 import os
-from utils import download_data
+
+def download_data_from_kaggle(dataset, download_path):
+    """
+    Download dataset from Kaggle using the Kaggle API.
+    
+    Args:
+        dataset (str): The dataset identifier (e.g., "aifahim/dhaka-ai-traffic-challenge-weights-yolov5").
+        download_path (str): The path where the dataset should be downloaded.
+    """
+    # Ensure the download path exists
+    os.makedirs(download_path, exist_ok=True)
+
+    # Run the Kaggle API command to download and unzip the dataset
+    kaggle_command = f'kaggle datasets download -d {dataset} -p {download_path} --unzip'
+    os.system(kaggle_command)
 
 def prepare_data():
-    # Create necessary directories
-    os.makedirs('data/traffic_data', exist_ok=True)
-
-    # Download data and unzip it
-    download_data('data/traffic_data/', 'https://drive.google.com/file/d/1LR1VnpEg2jN75K_Vkd6zFq3P0mzvQY7p/view?usp=sharing')
-    print("Data prepared!")
+    """
+    Prepare data by downloading the dataset from Kaggle.
+    """
+    dataset = "aifahim/dhaka-ai-traffic-challenge-weights-yolov5"
+    download_path = "saved_models/"  # Set the target download folder to saved_models
+    
+    print("Downloading dataset from Kaggle...")
+    download_data_from_kaggle(dataset, download_path)
+    print(f"Download complete! Files saved in {download_path}")
 
 if __name__ == "__main__":
     prepare_data()

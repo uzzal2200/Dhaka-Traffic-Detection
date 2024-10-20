@@ -9,3 +9,4 @@ dependencies:
       - torch
       - streamlit
       - pillow
+      - kaggle

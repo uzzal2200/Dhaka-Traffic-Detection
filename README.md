@@ -12,28 +12,30 @@ This project is a traffic detection system built using YOLOv5, Streamlit, and Py
 
 ## How to Run
 
-1. **Set up the Conda Environment:**
+**Set up the Conda Environment:**
    ```bash
    conda env create -f environment.yml
    conda activate dhaka-traffic-detection
+   ```
 
 Run Streamlit App:
 
-bash
-Copy code
-streamlit run streamlit/app.py
+```bash
+streamlit run streamlit/app.p
+```
+
 Deploy on Streamlit Cloud:
 
 Push the project to GitHub.
 Go to Streamlit Cloud and deploy the app.
-Dependencies
-Python 3.9
-Streamlit
-PyTorch
-YOLOv5
-Pillow
-markdown
-Copy code
+
+**Dependencies**
+- Python 3.9
+- Streamlit
+- PyTorch
+- YOLOv5
+- Pillow
+
 
 ---
 
@@ -41,9 +43,39 @@ Copy code
 
 1. **Activate your Conda environment**:
 
-    ```bash
-    conda activate dhaka-traffic-detection
-    ```
+```bash
+conda activate dhaka-traffic-detection
+```
+
+2. **Download the Dataset from Kaggle**
+This project uses a dataset hosted on Kaggle. Follow these steps to download the dataset:
+
+Install the Kaggle API (if not already installed):
+
+```bash
+pip install kaggle
+```
+Set up the Kaggle API credentials:
+
+Download the kaggle.json file from your Kaggle account by navigating to the API section and creating a new API token.
+
+Move the kaggle.json file to the appropriate location:
+
+```bash
+mkdir ~/.kaggle
+mv ~/Downloads/kaggle.json ~/.kaggle/
+chmod 600 ~/.kaggle/kaggle.json
+```
+
+Download the dataset:
+
+Use the following command to download the YOLOv5 weights dataset into the saved_models/ folder:
+
+```bash
+kaggle datasets download -d aifahim/dhaka-ai-traffic-challenge-weights-yolov5 -p saved_models --unzip
+```
+
+This will download and unzip the trained YOLOv5 weights into the saved_models/ folder.
 
 2. **Run the Streamlit app**:
 
