@@ -10,3 +10,4 @@ dependencies:
       - streamlit
       - pillow
       - kaggle
+      - opencv-python
