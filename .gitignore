@@ -14,8 +14,6 @@ saved_models/
 *.pt
 *.pth
 
-# Streamlit Uploads
-uploads/
 
 # Logs
 *.log
