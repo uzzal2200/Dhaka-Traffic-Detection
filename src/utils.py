@@ -17,5 +17,7 @@ def load_data_config(path):
     return config
 
 def load_model_weights(path):
-    model = torch.load(path)
+    # Load the model using torch's load function
+    model = torch.load(path, map_location=torch.device('cpu'))  # Use CPU if no GPU is available
     return model
+

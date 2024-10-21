@@ -1,12 +1,16 @@
 import torch
-from utils import load_model_weights
 
-def run_inference(image_path):
-    model = load_model_weights('./saved_models/Best_Accuracy_Dhaka_AI_Yolov5l_By_Autobot_BS_8.pt')
-    results = model(image_path)
-    results.print()  # Print results
-    return results
+class YOLOv5Inference:
+    def __init__(self, model_path):
+        self.model_path = model_path
+        self.model = self.load_model()
 
-if __name__ == "__main__":
-    image_path = 'data/traffic_data/images/test.jpg'
-    run_inference(image_path)
+    def load_model(self):
+        # Load the YOLOv5 model from the Ultralytics repository using torch.hub
+        return torch.hub.load('ultralytics/yolov5', 'custom', path=self.model_path, force_reload=True)
+
+    def run_inference(self, image_path):
+        # Run inference on the provided image path
+        results = self.model(image_path)
+        results.print()  # Print results
+        return results

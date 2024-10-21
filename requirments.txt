@@ -1,5 +1,5 @@
-streamlit
-pillow
-kaggle
+streamlit==1.9
+pillow==2.8
+kaggle==5.7
 opencv-python
 torch
