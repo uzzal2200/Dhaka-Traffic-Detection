@@ -1,0 +1,13 @@
+name: dhaka-traffic-detection
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.9
+  - pip
+  - pip:
+      - torch
+      - streamlit
+      - pillow
+      - kaggle
+      - opencv-python
