@@ -3,3 +3,6 @@ pillow
 kaggle
 opencv-python
 torch
+python-multipart
+fastapi
+uvicorn

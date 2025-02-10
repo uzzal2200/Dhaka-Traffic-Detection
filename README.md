@@ -26,7 +26,7 @@ conda activate dhaka-traffic-detection
 To run the Streamlit app locally:
 
 ```bash
-streamlit run streamlit/app.py
+ streamlit run your_app.py --server.runOnSave=false --global.developmentMode=false  
 ```
 
 Your app will be available locally at `http://localhost:8501`.

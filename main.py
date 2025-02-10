@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, Request
 from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -10,42 +10,54 @@ from src.inference import YOLOv5Inference
 # Initialize FastAPI app
 app = FastAPI()
 
-# Serve static files (e.g., images) and templates (HTML)
+# Create necessary directories
+os.makedirs('static', exist_ok=True)
+os.makedirs('uploads', exist_ok=True)
+
+# Serve static files and templates
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-# Initialize the YOLOv5 inference engine
+# Initialize YOLOv5 inference engine
 inference_engine = YOLOv5Inference('./saved_models/Best_Accuracy_Dhaka_AI_Yolov5l_By_Autobot_BS_8.pt')
 
-# Ensure 'uploads' directory exists
-if not os.path.exists('uploads'):
-    os.makedirs('uploads')
 
 @app.get("/", response_class=HTMLResponse)
-async def get_home():
-    # Display the HTML page for image upload
-    return templates.TemplateResponse("index.html", {"request": {}})
+async def get_home(request: Request):
+    return templates.TemplateResponse("index.html", {
+        "request": request,
+        "show_result": False
+    })
+
 
 @app.post("/upload/")
 async def upload_image(file: UploadFile = File(...)):
-    # Read uploaded file and run YOLOv5 inference
-    contents = await file.read()
+    try:
+        # Read uploaded file
+        contents = await file.read()
+        image = Image.open(io.BytesIO(contents))
 
-    # Decode the base64 image and open it with PIL
-    image = Image.open(io.BytesIO(contents))
+        # Save uploaded image
+        img_path = "uploads/uploaded_image.jpg"
+        image.save(img_path)
 
-    # Save the image temporarily
-    img_path = "uploads/uploaded_image.jpg"
-    image.save(img_path)
+        # Run YOLOv5 inference
+        results = inference_engine.run_inference(img_path)
+        results.render()  # Render the bounding boxes
 
-    # Run YOLOv5 inference
-    results = inference_engine.run_inference(img_path)
+        # Save the result image
+        results_img = Image.fromarray(results.ims[0])
+        results_img_path = "static/results.jpg"
+        results_img.save(results_img_path)
 
-    # Save the result image with bounding boxes
-    results.render()  # Render the bounding boxes
-    results_img = Image.fromarray(results.ims[0])  # Convert to PIL Image (using 'ims')
-    results_img_path = "uploads/results.jpg"
-    results_img.save(results_img_path)
+        return {"success": True}
 
-    # Send the image with bounding boxes as the response
-    return FileResponse(results_img_path, media_type="image/jpeg")
+    except Exception as e:
+        print(f"Error processing image: {str(e)}")
+        return {"success": False, "error": str(e)}
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=8000)

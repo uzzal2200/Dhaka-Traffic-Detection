@@ -4,15 +4,148 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dhaka Traffic Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        form {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        input[type="file"] {
+            margin: 20px 0;
+            padding: 10px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        #resultsSection {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            text-align: center;
+            display: none;
+        }
+
+        .result-image {
+            max-width: 100%;
+            height: auto;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
     <h1>Upload Image for Dhaka Traffic Detection</h1>
-    <form action="/upload/" method="post" enctype="multipart/form-data">
+
+    <form id="uploadForm" action="/upload/" method="post" enctype="multipart/form-data">
         <input type="file" name="file" accept="image/*" required>
+        <br><br>
         <button type="submit">Upload and Detect</button>
     </form>
 
-    <h2>Results:</h2>
-    <img src="/static/results.jpg" alt="Detection Results" width="500">
+    <div id="loading">Processing image... Please wait...</div>
+
+    <div id="resultsSection">
+        <h2>Detection Results</h2>
+        <img id="resultImage" class="result-image" alt="Detection Results">
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Show loading message
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('resultsSection').style.display = 'none';
+
+            const formData = new FormData(this);
+
+            try {
+                const response = await fetch('/upload/', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Hide loading message
+                    document.getElementById('loading').style.display = 'none';
+
+                    // Update and show results
+                    const resultImage = document.getElementById('resultImage');
+                    const resultsSection = document.getElementById('resultsSection');
+
+                    resultImage.src = `/static/results.jpg?t=${new Date().getTime()}`;
+                    resultsSection.style.display = 'block';
+
+                    // Scroll to results
+                    resultsSection.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    alert('Error processing image: ' + (data.error || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while processing the image.');
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+            }
+        });
+
+        // Optional: Preview uploaded image
+        document.querySelector('input[type="file"]').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const resultImage = document.getElementById('resultImage');
+                    const resultsSection = document.getElementById('resultsSection');
+                    resultImage.src = e.target.result;
+                    resultsSection.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 </body>
 </html>
