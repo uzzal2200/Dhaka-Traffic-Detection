@@ -41,6 +41,8 @@ uvicorn main:app --reload --port 8080
 
 This will start the FastAPI server locally at `http://127.0.0.1:8080`.
 
+Go to the `http://localhost:8000/` - to start the frontend
+
 ## FastAPI Endpoints
 
 * **GET /**: Renders the HTML page to upload an image for traffic detection.
@@ -62,7 +64,7 @@ Push the project to GitHub and deploy it to Streamlit Cloud using the following 
 
 1. Push your project to GitHub.
 2. Go to Streamlit Cloud and create a new app.
-3. Link it to your GitHub repository and select `streamlit/app.py` as the main file.
+3. Link it to your GitHub repository and select `streamlit_app.py` as the main file.
 4. Deploy your app to make it accessible online.
 
 ## Dependencies
@@ -74,6 +76,11 @@ Push the project to GitHub and deploy it to Streamlit Cloud using the following 
 * PyTorch
 * YOLOv5
 * Pillow
+* streamlit
+* kaggle
+* opencv-python
+* torch
+* python-multipart
 
 ## Running the Project Locally
 

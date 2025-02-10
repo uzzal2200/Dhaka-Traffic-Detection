@@ -11,3 +11,6 @@ dependencies:
       - pillow
       - kaggle
       - opencv-python
+      - python-multipart
+      - fastapi
+      - uvicorn
