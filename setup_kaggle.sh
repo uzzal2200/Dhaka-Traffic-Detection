@@ -14,7 +14,7 @@ if [ ! -d ~/.kaggle ]; then
 fi
 
 # Move the kaggle.json file to the .kaggle directory
-echo "Moving kaggle.json to .kaggle directory..."
+echo "Moving kaggle.json to .kaggle directory..." # This line is a comment
 mv ~/Downloads/kaggle.json ~/.kaggle/
 
 # Set correct permissions on kaggle.json

@@ -1,3 +1,5 @@
+#
+
 from fastapi import FastAPI, UploadFile, File, Request
 from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -30,7 +32,7 @@ async def get_home(request: Request):
     })
 
 
-@app.post("/upload/")
+@app.post("/upload/") # Endpoint to handle image upload
 async def upload_image(file: UploadFile = File(...)):
     try:
         # Read uploaded file

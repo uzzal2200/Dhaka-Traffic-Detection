@@ -14,3 +14,6 @@ class YOLOv5Inference:
         results = self.model(image_path)
         results.print()  # Print results
         return results
+
+
+# src file included

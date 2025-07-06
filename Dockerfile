@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y libgl1-mesa-glx libglib2.0-0
 # Set the working directory
 WORKDIR /app
 
-# Copy requirements file
+# Copy requirements file to the container
 COPY requirements.txt .
 
 # Install Python dependencies
